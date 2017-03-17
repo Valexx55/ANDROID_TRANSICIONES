@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Explode;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,37 +40,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals("Efecto Ocultar"))
-        {
-            final View myView = findViewById(R.id.imagen);
-            int cx = (myView.getLeft() + myView.getRight()) / 2;
-            int cy = (myView.getTop() + myView.getBottom()) / 2;
-            int initialRadius = myView.getWidth();
-            Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    myView.setVisibility(View.INVISIBLE);
-                }
-            });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (item.getTitle().equals("Efecto Ocultar")) {
+                final View myView = findViewById(R.id.imagen);
+                int cx = (myView.getLeft() + myView.getRight()) / 2;
+                int cy = (myView.getTop() + myView.getBottom()) / 2;
+                int initialRadius = myView.getWidth();
+                Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        myView.setVisibility(View.INVISIBLE);
+                    }
+                });
 
-            anim.start();
+                anim.start();
 
-        } else if (item.getTitle().equals("Efecto Mostrar")) {
+            } else if (item.getTitle().equals("Efecto Mostrar")) {
 
-            View myView = findViewById(R.id.imagen);
-            int cx = (myView.getLeft() + myView.getRight()) / 2;
-            int cy = (myView.getTop() + myView.getBottom()) / 2;
-            int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-            Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-            myView.setVisibility(View.VISIBLE);
-            anim.start();
+                View myView = findViewById(R.id.imagen);
+                int cx = (myView.getLeft() + myView.getRight()) / 2;
+                int cy = (myView.getTop() + myView.getBottom()) / 2;
+                int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+                Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+                myView.setVisibility(View.VISIBLE);
+                anim.start();
 
+            } else {
+                Intent i = new Intent(this, InOutExplodeActivity.class);
+                startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                //startActivity(i, null);//llamando así, evito la transición definida en style
+            }
         } else {
-            Intent i = new Intent(this, InOutExplodeActivity.class);
-            startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            //startActivity(i, null);//llamando así, evito la transición definida en style
+            Toast mensaje = Toast.makeText(this, "TRANSICIONES NO PERMITIDAS EN SU MOVIL", Toast.LENGTH_LONG);
+            mensaje.show();
+
         }
 
         // previously visible view

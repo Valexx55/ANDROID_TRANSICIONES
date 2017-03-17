@@ -30,7 +30,7 @@
         android:text="Efecto Ripple"
         android:colorControlHighlight="@color/colorAccent"
         android:background="?android:attr/selectableItemBackground"/>
-<!--
+
     <Button
         android:id="@+id/boton3"
         android:layout_centerHorizontal="true"
@@ -42,20 +42,6 @@
         android:text="Ripple Plus"
 
         android:background="?android:attr/selectableItemBackgroundBorderless"/>
--->
-
-    <Button
-        android:id="@+id/boton3"
-        android:layout_centerHorizontal="true"
-        android:colorControlHighlight="@color/colorAccent"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/boton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ripple Plus"
-
-        />
-
 
     <ImageView
             android:layout_marginTop="35dp"

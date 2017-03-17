@@ -1,5 +1,6 @@
 package com.example.vale.transiciones;
 
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,6 +14,8 @@ public class AndroidGrande extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finishAfterTransition();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            finishAfterTransition();
+        else finish();
     }
 }
